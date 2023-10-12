@@ -3,6 +3,15 @@
     margin-bottom: 5px;
   }
 </style>
+
+<?php
+  if (empty($user['User']['photo_url'])) {
+    $photoUrl = 'https://cdn-icons-png.flaticon.com/512/147/147142.png';
+  } else {
+    $photoUrl = $this->Html->webroot($user['User']['photo_url']);
+  }
+?>
+
 <div class="container">
   <?php echo $this->element('navigation'); ?>
   <div class="card mt-5">
@@ -13,13 +22,14 @@
       <div class="row">
         <div class="col-md-4 offset-md-1 mr-3" style="border: 1px solid rgba(0,0,0,0.4); padding: 5px;">
           <div class="text-center">
-            <img src="https://cdn-icons-png.flaticon.com/512/147/147142.png" width="180" height="180">
+            <img src="<?php echo $photoUrl; ?>" width="180" height="180">
           </div>
         </div>
         <div class="col-md-6">
           <div class="text-left">
             <div class="block">
               <h4 class="mb-2"><strong><?php echo $user['User']['name']; ?></strong></h4>
+              <p><strong>Email: </strong> <?php echo $user['User']['email']; ?></p>
               <p><strong>Gender:</strong>
                 <?php if ($user['User']['gender'] == 'm'): ?>
                   Male

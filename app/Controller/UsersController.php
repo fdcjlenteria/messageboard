@@ -1,5 +1,7 @@
 <?php
 class UsersController extends AppController {
+  public $components = array('RequestHandler');
+  
   public function beforeFilter() {
     parent::beforeFilter();
     $this->Auth->allow('thankyou', 'profile');
@@ -7,7 +9,25 @@ class UsersController extends AppController {
 
   public function index () {
     $this->set('title_for_layout', 'Home');
+
+    $messages = $this->User->Message->find('all', array(
+      'limit' => 10
+    ));
+    $this->set('messages', $messages);
   }
+
+  public function additionalMessages() {
+    $offset = $this->request->query('offset');
+    $messages = $this->User->Message->find('all', array(
+        'offset' => $offset,
+        'limit' => 10, // Number of additional items to fetch
+    ));
+    $this->set([
+			'messages' => $messages,
+			'_serialize' => ['messages']
+		]);
+  }
+  
   public function register() {
     $this->set('title_for_layout', 'Register');
 
@@ -24,10 +44,10 @@ class UsersController extends AppController {
         $this->Session->write('isFromRegister', true);
         $this->redirect(array('action' => 'thankyou'));
        }else {
-        $this->Session->setFlash('Error registering user.');
+        $this->setFlash('Error registering user.', 'error');
        }
       } else {
-        $this->Session->setFlash('Validation failed. Please correct the errors.');
+        $this->setFlash('Validation failed. Please correct the errors.', 'error');
       }
     }
   }
@@ -37,11 +57,11 @@ class UsersController extends AppController {
 
     if ($this->request->is('post')) {
       if ($this->Auth->login()) {
-        $this->User->id = AuthComponent::user('id');
+        $this->User->id = $this->Auth->user('id');
         $this->User->saveField('last_login_at', date('Y-m-d H:i:s'));
         $this->redirect($this->Auth->redirect());
       }else {
-        $this->Session->setFlash('Username or password is incorrect.');
+        $this->setFlash('Username or password is incorrect.', 'error');
       }
     }
   }
@@ -74,54 +94,85 @@ class UsersController extends AppController {
   // User Account Settings
   public function edit() {
     $this->set('title_for_layout', 'Account Settings');
-    $userId = AuthComponent::user('id');
+    $userId = $this->Auth->user('id');
+    $user = $this->User->findById($userId);
 
     if ($this->request->is(array('post', 'put'))) {
+      $file = $this->request->data['User']['photo_url'];
+      $this->request->data['User']['photo_url'] = $user['User']['photo_url'];
+      
+      if(empty($user['User']['photo_url']) && empty($file['name'])
+        || empty($this->request->data['User']['name'])
+        || empty($this->request->data['User']['birthdate'])
+        || empty($this->request->data['User']['gender'])
+        || empty($this->request->data['User']['hobby'])
+      ) {
+        return $this->setFlash('Please fill up all fields.');
+      }
+      if($file['name']) {
+        $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = 'profile_' . $userId . '.' . $fileExt;
+        $targetDir = WWW_ROOT . 'img' . DS . 'profiles' . DS . $filename;
+        if (move_uploaded_file($file['tmp_name'], $targetDir)) {
+        $this->request->data['User']['photo_url'] = 'img/profiles/' . $filename;
+        }else {
+          $this->setFlash('Error uploading photo.', 'error');
+        }
+      }
+      // save 
       $this->User->id = $userId;
-      if ($this->User->save($this->request->data)) {
+      if($this->User->save($this->request->data)) {
         $this->redirect(array('action' => 'profile', $userId));
+
       } else {
         $this->setFlash('Error saving user.', 'error');
       }
     }
-
-    $user = $this->User->findById($userId);
     $this->request->data = $user;
     $this->set('user', $user);
   }
 
   // Update Password
-  public function updatePassword(){
+  public function password(){
     if ($this->request->is(array('put', 'post'))) {
-      $user = $this->User->findById(AuthComponent::user('id'));
-      // Check if the old password matches the stored password
-      if ($this->Auth->password($this->request->data['User']['old_password']) === $user['User']['password']) {
-        // Password match
-        // check new password length
-        if (strlen($this->request->data['User']['password']) < 8) {
-          $this->setFlash('Password must be at least 8 characters long.', 'error');
-          return;
-        }
-        // check new password confirmation
-        if ($this->request->data['User']['password'] !== $this->request->data['User']['password_confirm']) {
-          $this->setFlash('Passwords do not match', 'error');
-          return;
-        }
-
-        $this->User->id = $user['User']['id'];
-        if ($this->User->saveField('password', $this->request->data['User']['password'])) {
-          $this->setFlash('Password updated successfully.', 'success');
+      $userId = $this->Auth->user('id');
+      $this->User->set($this->request->data);
+      if($this->User->validates()) {
+        $this->User->id = $userId;
+        if($this->User->saveField('password', $this->request->data['User']['password'])){
+          $this->setFlash('Password successfully updated.', 'success');
         } else {
-          $this->setFlash('Password update failed. Please try again.', 'error');
+          $this->setFlash('Email update failed. Please try again.', 'error');
         }
       } else {
-        $this->setFlash('Old password is incorrect. Please try again.', 'error');
+        $this->setFlash('Validation failed. Please correct the errors.', 'error');
       }
-      $this->redirect($this->referer());
     }
   }
 
-  public function setFlash($text, $type) {
+  public function email() {
+    $userId = $this->Auth->user('id');
+    // remove rules for old email
+    $this->User->validate['email'] = array();
+
+    if ($this->request->is(array('put', 'post'))) {
+      $this->User->set($this->request->data);
+
+      if ($this->User->validates()) {
+        $this->User->id = $userId;
+        if ($this->User->saveField('email', $this->request->data['User']['new_email'])) {
+          $this->setFlash('Email updated successfully.', 'success');
+        } else {
+          $this->setFlash('Email update failed. Please try again.', 'error');
+        }
+      }
+    }
+    $user = $this->User->findById($userId);
+    $this->request->data = $user;
+    $this->set('user', $user);
+  }
+
+  public function setFlash($text, $type = 'error') {
     $this->Session->setFlash($text, 'default', array(), $type);
   }
 }

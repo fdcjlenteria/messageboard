@@ -1,4 +1,4 @@
-<?php echo $this->Html->css('form.css'); ?>
+<?php echo $this->Html->css('form'); ?>
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
   <div class="border shadow p-4 rounded" style="width: 400px;">
       <h2 class="text-center">Registration Form</h2>

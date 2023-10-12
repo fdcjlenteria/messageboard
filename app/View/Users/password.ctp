@@ -1,4 +1,4 @@
-
+<?php echo $this->Html->css('form'); ?>
 <div class="container">
   <?php echo $this->element('navigation'); ?>
   <div class="card mt-5">
@@ -19,9 +19,9 @@
 
       <?php
       echo $this->Form->create('User'); 
-      echo $this->Form->input('old_password', array('type' => 'password','label' => 'Enter your current password', 'class' => 'form-control', 'div' => array('class' => 'form-group')));
+      echo $this->Form->input('old_password', array('value' => '', 'type' => 'password','label' => 'Enter your current password', 'class' => 'form-control', 'div' => array('class' => 'form-group')));
       echo $this->Form->input('password', array('value' => '', 'type' => 'password','class' => 'form-control', 'div' => array('class' => 'form-group')));
-      echo $this->Form->input('password_confirm', array('type' => 'password','class' => 'form-control', 'div' => array('class' => 'form-group')));
+      echo $this->Form->input('password_confirm', array('value' => '', 'type' => 'password','class' => 'form-control', 'div' => array('class' => 'form-group')));
       echo $this->Form->submit('Update Password', array('class' => 'btn btn-success btn-block mt-3','style' => 'width: auto'));
       echo $this->Form->end();
       ?>
