@@ -12,6 +12,13 @@ class Message extends AppModel {
  */
 	public $displayField = 'id';
 	public $belongsTo = 'User';
+	public $hasMany = array(
+		'Conversation' => array(
+      'className' => 'Conversation',
+      'foreignKey' =>'message_id',
+			'dependent' => true
+    )
+	);
 /**
  * Validation rules
  *

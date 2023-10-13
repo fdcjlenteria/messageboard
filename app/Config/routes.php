@@ -30,18 +30,6 @@
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-	Router::connect(
-    '/get-messages',
-    array(
-        'controller' => 'users', // Replace with your controller name
-        'action' => 'additionalMessages', // Replace with your action name
-        '_ext' => 'json' // Specify the response format (e.g., JSON)
-    ),
-    array(
-        'ajax' => true // Restrict the route to AJAX requests
-    )
-);
-
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

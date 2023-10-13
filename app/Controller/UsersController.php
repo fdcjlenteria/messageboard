@@ -11,21 +11,27 @@ class UsersController extends AppController {
     $this->set('title_for_layout', 'Home');
 
     $messages = $this->User->Message->find('all', array(
+      'conditions' => array(
+        'OR' => array(
+          'user_id' => $this->Auth->user('id'), // main sender can see the conversation
+          'recipient' => $this->Auth->user('id') // recipient also can see the conversation
+        )
+      ),
+      'order' => ['Message.created ASC'],
       'limit' => 10
     ));
     $this->set('messages', $messages);
   }
 
-  public function additionalMessages() {
+  public function showMore() {
+    $this->autoRender = false;
     $offset = $this->request->query('offset');
     $messages = $this->User->Message->find('all', array(
         'offset' => $offset,
-        'limit' => 10, // Number of additional items to fetch
-    ));
-    $this->set([
-			'messages' => $messages,
-			'_serialize' => ['messages']
-		]);
+        'order' => ['Message.created ASC'],
+        'limit' => 10
+      ));
+    echo json_encode($messages);
   }
   
   public function register() {

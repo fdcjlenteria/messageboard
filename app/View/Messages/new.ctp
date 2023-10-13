@@ -67,7 +67,7 @@
         source: availableUsers,
         minLength: 1,
         select: function(event, ui) {
-          $('#recipient-id').val(parseInt(ui.item.id));
+          $('#recipient-id').val(ui.item.id);
         },
         focus: function (event, ui) {
             event.preventDefault();

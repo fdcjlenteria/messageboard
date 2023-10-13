@@ -1,13 +1,20 @@
 <?php
 class MessagesController extends AppController {
+  
   public function index() {
-    
+    $this->redirect(array('controller' => 'users', 'action' => 'index'));
   }
   public function new () {
     $this->set('title_for_layout', 'New Message');
+    $this->loadModel('User');
     // create
     if ($this->request->is(array('post', 'put'))) {
-      if (empty($this->request->data['Message']['recipient'])) {
+      $recipient_id = is_int((int)$this->request->data['Message']['recipient']) 
+        ? $this->request->data['Message']['recipient'] 
+        : 0;
+
+      $recipient = $this->User->findById($recipient_id);
+      if (!$recipient) {
         $this->setFlash('Please provide recipient.', 'error');
       }else {
         $this->Message->create();
@@ -21,7 +28,6 @@ class MessagesController extends AppController {
       }
     }
 
-    $this->loadModel('User');
     $users = $this->User->find('all', array(
       'fields' => array(
         'User.id',
@@ -33,8 +39,14 @@ class MessagesController extends AppController {
     $this->set('users', $users);
   }
 
-  public function delete() {
-
+  public function delete($messageId) {
+    $this->autoRender = false;
+    if ($this->request->is('ajax')) {
+      $this->Message->delete($messageId);
+      echo json_encode(array(
+        'success' => true
+      ));
+    }
   }
   public function setFlash($text, $type = 'error') {
     $this->Session->setFlash($text, 'default', array(), $type);

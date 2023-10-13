@@ -12,7 +12,7 @@ class User extends AppModel {
  * @var string
  */
 	public $displayField = 'name';
-	public $hasMany = 'Message';
+	public $hasMany = array('Message', 'Conversation');
 /**
  * Validation rules
  *
