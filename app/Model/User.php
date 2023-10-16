@@ -29,7 +29,7 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 			'minLength' => array(
-        'rule' => array('minLength', 5),
+        	'rule' => array('minLength', 5),
 				'message' => 'Name must be at least 5 characters',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -128,7 +128,12 @@ class User extends AppModel {
 		)
 	);
 
-	public function comparePasswords($passwordConfirm, $passwordField, $strict = false) {
+	public function comparePasswords(
+		$passwordConfirm, 
+		$passwordField, 
+		$strict = false
+		) {
+
 		$password = $this->data[$this->name][$passwordField];
 		$confirm_password = $passwordConfirm['password_confirm'];
 		

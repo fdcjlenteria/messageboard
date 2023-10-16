@@ -36,7 +36,7 @@ class Message extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-
+		
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
