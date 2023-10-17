@@ -113,17 +113,17 @@ class User extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-			'checkNewEmail' => array(
-        'rule' => 'checkNewEmail',
-        'message' => 'This is your old email, please input a new one.'
-        //'message' => 'Your custom message here',
-        //'allowEmpty' => false,
+		'checkNewEmail' => array(
+			'rule' => 'checkNewEmail',
+			'message' => 'This is your old email, please input a new one.'
+			//'message' => 'Your custom message here',
+			//'allowEmpty' => false,
 			),
 			'checkUnique' => array(
-        'rule' => 'checkUnique',
+				'rule' => 'checkUnique',
 				'message' => 'This email address is already in use.',
-        //'message' => 'Your custom message here',
-        //'allowEmpty' => false,
+			//'message' => 'Your custom message here',
+			//'allowEmpty' => false,
 			)
 		)
 	);
@@ -147,14 +147,14 @@ class User extends AppModel {
 		$userId = AuthComponent::user('id');
 		$user = $this->findById($userId);
 		$hashedOldPassword = AuthComponent::password($data['old_password']);
-		return $user['User']['password'] === $hashedOldPassword;
+		return $user[$this->alias]['password'] === $hashedOldPassword;
 	}
 
 	public function checkNewEmail($data) {
 		$userId = AuthComponent::user('id');
 		$user = $this->findById($userId);
 
-		$oldEmail = $user['User']['email'];
+		$oldEmail = $user[$this->alias]['email'];
 		
 		if ($data['new_email'] === $oldEmail) { 
 			return false; 
@@ -170,8 +170,8 @@ class User extends AppModel {
 	}
 
 	public function beforeSave($options = array()) {
-		if (isset($this->data['User']['password'])) {
-			$this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+		if (isset($this->data[$this->alias]['password'])) {
+			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
 		}
 		return true;
 	}

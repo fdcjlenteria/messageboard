@@ -39,6 +39,7 @@ class UsersController extends AppController {
 	
 	public function register() {
 		$this->set('title_for_layout', 'Register');
+		$this->Session->delete('Message.error');
 
 		if ($this->Auth->user()) {
 			$this->redirect('index');
@@ -62,6 +63,7 @@ class UsersController extends AppController {
 
 	public function login() {
 		$this->set('title_for_layout', 'Login');
+		$this->Session->delete('Message.error');
 
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {

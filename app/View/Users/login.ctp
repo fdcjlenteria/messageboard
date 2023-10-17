@@ -1,6 +1,6 @@
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
 	<div class="border shadow p-4 rounded" style="width: 400px;">
-		<h2 class="text-center">Login Form</h2>
+		<h2 class="text-center">Sign In</h2>
 		<?php if ($this->Session->check('Message.error')): ?>
 			<div class="alert alert-danger">
 				<?php echo $this->Session->flash('error'); ?>
