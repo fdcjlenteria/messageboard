@@ -13,8 +13,8 @@ class UsersController extends AppController {
 		$messages = $this->User->Message->find('all', array(
 			'conditions' => array(
 				'OR' => array(
-				'user_id' => $this->Auth->user('id'), // main sender can see the conversation
-				'recipient_id' => $this->Auth->user('id') // recipient also can see the conversation
+					'user_id' => $this->Auth->user('id'), // main sender can see the conversation
+					'recipient_id' => $this->Auth->user('id') // recipient also can see the conversation
 				)
 			),
 			'order' => ['Message.created ASC'],
@@ -47,8 +47,8 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			$this->User->set($this->request->data);
 			if ($this->User->validates()) {
-					$this->User->create();
-				if ($this->User->save($this->request->data)){
+				$this->User->create();
+				if ($this->User->save($this->request->data)) {
 					// make sure to redirect to thank you page after registration only
 					$this->Session->write('isFromRegister', true);
 					$this->redirect(array('action' => 'thankyou'));
@@ -92,7 +92,6 @@ class UsersController extends AppController {
 	public function profile($userId = null) {
 		$this->set('title_for_layout', 'Profile');
 
-		$this->set('title_for_layout', 'Profile');
 		$user = $this->User->findById($userId);
 		
 		if (!$user) {
@@ -124,10 +123,11 @@ class UsersController extends AppController {
 				$filename = 'profile_' . $userId . '.' . $fileExt;
 				$targetDir = WWW_ROOT . 'img' . DS . 'profiles' . DS . $filename;
 				$existingImgPath = WWW_ROOT . 'img/profiles/' . $filename;
-				if (file_exists($existingImgPath)) {
+				if (file_exists($existingImgPath)) { // delete existing image if same filename
 					unlink($existingImgPath);
 				}
 
+				// save pic
 				if (move_uploaded_file($file['tmp_name'], $targetDir)) {
 					$this->request->data['User']['photo_url'] = 'img/profiles/' . $filename;
 				} else {

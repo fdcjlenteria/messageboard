@@ -1,29 +1,29 @@
 <style>
-	.message-content-container{
-	    margin-bottom: 15px;
-	}
-	.message-content-container .row {
-	    cursor: pointer;
-	}
-	.message-content-container .row:hover {
-	    opacity: 0.7;
-	}
-	#show-more{
+    .message-content-container{
+        margin-bottom: 15px;
+    }
+    .message-content-container .row {
+        cursor: pointer;
+    }
+    .message-content-container .row:hover {
+        opacity: 0.7;
+    }
+    #show-more{
         color: blue;
         cursor: pointer;
-	}
-	#show-more:hover{
-	    text-decoration: underline;
-	}
+    }
+    #show-more:hover{
+        text-decoration: underline;
+    }
 
-	.message-body {
-	    display: flex;
-	}
-	.message-body #show-more-content {
+    .message-body {
+        display: flex;
+    }
+    .message-body #show-more-content {
         display: none;
         text-decoration: underline;
         margin-left: 10px; 
-	}
+    }
 </style>
 
 <div class="container">
@@ -194,8 +194,6 @@
                     .text('Show More')
                     .data('limit', limit);
 
-                    console.log($(messageContainer.html()).length)
-                    console.log($(oldMessageContent).length)
                     if ($(messageContainer.html()).length == $(oldMessageContent).length) {
                         $('#show-more').hide();
                     }
@@ -217,7 +215,7 @@
 
     // direct to conversation
     $('.container').on('click', '.message-content-container', function(event) {
-        if (!$(event.target).is('a')) {
+        if (!$(event.target).is('a')) { // prevent opening if clicking 'show more' or 'show less'
             const messageId = $(this).data('message-id');
             window.location.href = `/messageboard/conversations/index/${messageId}`;
         }

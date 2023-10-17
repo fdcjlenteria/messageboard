@@ -8,12 +8,12 @@
         <div class="card-body">
             <?php if ($this->Session->check('Message.error')): ?>
                 <div class="alert alert-danger">
-                <?php echo $this->Session->flash('error'); ?>
+                    <?php echo $this->Session->flash('error'); ?>
                 </div>
             <?php endif;?>
             <?php if ($this->Session->check('Message.success')): ?>
                 <div class="alert alert-success">
-                <?php echo $this->Session->flash('success'); ?>
+                    <?php echo $this->Session->flash('success'); ?>
                 </div>
             <?php endif;?>
 

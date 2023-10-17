@@ -29,21 +29,21 @@
 					<input type="text" required name="recipient_name" id="search-recipient" class="form-control" placeholder="Search recipient name ...">
 				</div>
 				<?php echo $this->Form->input('content', array(
-					'id' => 'message-content',
-					'label' => array(
-						'text' => 'Message',
-						'class' => 'mr-5',
-					),
-					'div' => array(
-						'class' => 'd-flex justify-content-center mt-3'
-					),
-					'rows' => '5',
-					'class' => 'form-control',
+						'id' => 'message-content',
+						'label' => array(
+							'text' => 'Message',
+							'class' => 'mr-5',
+						),
+						'div' => array(
+							'class' => 'd-flex justify-content-center mt-3'
+						),
+						'rows' => '5',
+						'class' => 'form-control',
 					));
 				?>
 				<?php echo $this->Form->submit('Send Message', array(
-					'class' => 'btn btn-block btn-success',
-					'style' => 'width: 150px; margin-left: 118px; margin-top: 20px'
+						'class' => 'btn btn-block btn-success',
+						'style' => 'width: 150px; margin-left: 118px; margin-top: 20px'
 					));
 				?>
 				<?php echo $this->Form->end();?>

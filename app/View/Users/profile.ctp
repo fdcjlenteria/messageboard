@@ -32,9 +32,9 @@
 							<p><strong>Email: </strong> <?php echo $user['User']['email']; ?></p>
 							<p><strong>Gender:</strong>
 								<?php if ($user['User']['gender'] == 'm'): ?>
-								Male
+									Male
 								<?php else: ?>
-								Female
+									Female
 								<?php endif; ?>
 							</p>
 							<p><strong>Birthdate: </strong> 

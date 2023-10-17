@@ -53,10 +53,10 @@
                 echo $this->Form->input('photo_url', array('id' => 'photo-url', 'name' => 'data[User][photo_url]', 'accept' => '.jpg, .png, .gif', 'type' => 'file'));
                 echo $this->Form->input('name', array('required', 'class' => 'form-control', 'minlength' => 5, 'maxlength' => 20, 'div' => array('class' => 'form-group')));
                 echo $this->Form->input('birthdate', array(
-                'required',
-                'type' => 'text',
-                'class' => 'form-control datepicker',
-                'div' => array('class' => 'form-group')
+                    'required',
+                    'type' => 'text',
+                    'class' => 'form-control datepicker',
+                    'div' => array('class' => 'form-group')
                 ));
                 echo $this->Form->input('gender', array('required', 'options' => array('m' => 'Male', 'f' => 'Female'), 'class' => 'form-control', 'div' => array('class' => 'form-group')));
                 echo $this->Form->input('hobby', array('required', 'class' => 'form-control', 'div' => array('class' => 'form-group')));

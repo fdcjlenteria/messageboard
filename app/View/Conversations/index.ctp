@@ -74,9 +74,9 @@
 					$isConvoUserEqualToAuthUser = $conversation['User']['id'] === AuthComponent::user('id') ? true : false;
 				?>
 				<div class="d-flex align-items-center p-2 <?php echo $isConvoUserEqualToAuthUser ? 'justify-content-end message-right' : 'message-left flex-row-reverse justify-content-end' ;?>" id="convo-container-<?php echo $conversation['Conversation']['id']; ?>">
-					<div class="mr-2" ><?php echo $conversation['Conversation']['reply']; ?></div>
-						<img class="<?php echo !$isConvoUserEqualToAuthUser ? 'mr-2' : ''; ?>" src="<?php echo $photoUrl; ?>" width="35" height="35" style="border-radius: 50%"/>
-						<div class="ellipsis">
+					<span class="mr-2" ><?php echo $conversation['Conversation']['reply']; ?></span>
+					<img class="<?php echo !$isConvoUserEqualToAuthUser ? 'mr-2' : ''; ?>" src="<?php echo $photoUrl; ?>" width="35" height="35" style="border-radius: 50%"/>
+					<div class="ellipsis">
 						<svg  xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16"><g transform="rotate(-90 8 8)"><path fill="gray" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></g></svg>
 						<a href="#" class="delete-link" data-convo_id="<?php echo $conversation['Conversation']['id']; ?>">Delete</a>
 					</div>
@@ -110,10 +110,10 @@
 				url: '/messageboard/conversations/reply',
 				type: 'POST',
 				data: { 
-				reply, 
-				user_id: authId,
-				message_id: messageData.message_id,
-				recipient_id: recipient_id
+					reply, 
+					user_id: authId,
+					message_id: messageData.message_id,
+					recipient_id: recipient_id
 				},
 				dataType: 'json',
 				success: function(data) {
@@ -209,8 +209,8 @@
 								<span class="mr-2" > ${d.Conversation.reply}</span>
 								<img class="${!isConvoUserEqualToAuthUser ? 'mr-2' : ''}" src="${d.User.photo_url}" width="35" height="35" style="border-radius: 50%"/>
 								<div class="ellipsis">
-								<svg  xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16"><g transform="rotate(-90 8 8)"><path fill="gray" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></g></svg>
-								<a href="#" class="delete-link" data-convo_id="${d.Conversation.id}">Delete</a>
+									<svg  xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16"><g transform="rotate(-90 8 8)"><path fill="gray" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></g></svg>
+									<a href="#" class="delete-link" data-convo_id="${d.Conversation.id}">Delete</a>
 								</div> 
 							</div>
 							`
