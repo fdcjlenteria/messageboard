@@ -201,7 +201,9 @@
                     }
                 }
                  else {
-                    messageContainer.append(`<p class="text-center text-danger">-- Message Not Found -- </p>`)
+                    if (query !== '') {
+                        messageContainer.append(`<p class="text-center text-danger">-- Message Not Found -- </p>`)
+                    }
                     $('#show-more').hide();
                 }
 
