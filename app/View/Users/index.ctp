@@ -27,7 +27,6 @@
 </style>
 
 <div class="container">
-    <?php echo $this->element('navigation'); ?>
     <div class="messages mt-5 mb-5">
         <div class="d-flex justify-content-between">
             <p></p>

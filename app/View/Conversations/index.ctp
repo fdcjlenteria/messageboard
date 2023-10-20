@@ -33,7 +33,6 @@
 </style>
 
 <div class="container">
-	<?php echo $this->element('navigation'); ?>
 	<div class="d-flex mt-5 mb-2">
 		<?php echo $this->Html->link('Back', array(
 			'controller' => 'users',

@@ -4,7 +4,7 @@ class UsersController extends AppController {
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('thankyou', 'profile');
+		$this->Auth->allow('thankyou');
 	}
 
 	public function index() {
@@ -41,8 +41,8 @@ class UsersController extends AppController {
 		$this->set('title_for_layout', 'Register');
 		$this->Session->delete('Message.error');
 
-		if ($this->Auth->user()) {
-			$this->redirect('index');
+		if ($this->Auth->loggedIn()) {
+			return $this->redirect('index');
 		}
 		if ($this->request->is('post')) {
 			$this->User->set($this->request->data);
@@ -62,6 +62,9 @@ class UsersController extends AppController {
 	}
 
 	public function login() {
+		if ($this->Auth->loggedIn()) {
+			return $this->redirect('index');
+		}
 		$this->set('title_for_layout', 'Login');
 		$this->Session->delete('Message.error');
 

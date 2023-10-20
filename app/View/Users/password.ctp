@@ -1,6 +1,5 @@
 <?php echo $this->Html->css('form'); ?>
 <div class="container">
-	<?php echo $this->element('navigation'); ?>
 	<div class="card mt-5">
 		<div class="card-header">
 			<h4 class="card-title text-center">Update Password</h4>
